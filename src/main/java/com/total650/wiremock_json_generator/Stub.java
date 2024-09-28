@@ -1,5 +1,7 @@
 package com.total650.wiremock_json_generator;
 
+
+
 public class Stub {
     private String url;
     private String method;
