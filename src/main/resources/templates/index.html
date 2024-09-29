@@ -88,7 +88,7 @@
 
         <div class="form-group">
             <label for="bodyType">Body Type:</label>
-            <select id="bodyType" class="form-control" onchange="toggleBodyInput()" required>
+            <select id="bodyType" class="form-control" onchange="updateResponseBodyPlaceholder()" required>
                 <option value="json">JSON</option>
                 <option value="text">Text</option>
                 <option value="xml">XML</option>
@@ -170,6 +170,32 @@
                 break;
             default:
                 urlValue.placeholder = '/your/url';
+                break;
+        }
+    }
+
+    function updateResponseBodyPlaceholder() {
+        const bodyType = document.getElementById('bodyType').value;
+        const responseBody = document.getElementById('responseBody');
+
+        switch (bodyType) {
+            case 'json':
+                responseBody.placeholder = '{ "key": "value" }';
+                break;
+            case 'text':
+                responseBody.placeholder = 'Sample plain text response';
+                break;
+            case 'xml':
+                responseBody.placeholder = '<root><key>value</key></root>';
+                break;
+            case 'html':
+                responseBody.placeholder = '<html><body><h1>Your HTML content</h1></body></html>';
+                break;
+            case 'base64':
+                responseBody.placeholder = 'SGVsbG8gd29ybGQ='; // "Hello world" in Base64
+                break;
+            default:
+                responseBody.placeholder = 'Enter Response Body';
                 break;
         }
     }
