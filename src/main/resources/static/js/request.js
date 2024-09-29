@@ -28,7 +28,7 @@ export function addRequestMatcher() {
         <option value="equalTo">equals</option>
         <option value="contains">contains</option>
         <option value="matches">matches</option>
-        <option value="not">not</option>
+        <option value="notEqualTo">Not Equals</option>
     `;
     matchSelect.required = true;
 
@@ -67,8 +67,11 @@ export function getRequestMatchers() {
             requestMatchers[type] = {};
         }
 
-        requestMatchers[type][key] = {};
-        requestMatchers[type][key][matchType] = value;
+        if (matchType === 'notEqualTo') {
+            requestMatchers[type][key] = { "not": { "equalTo": value } };
+        } else {
+            requestMatchers[type][key] = { [matchType]: value };
+        }
     });
 
     return requestMatchers;
