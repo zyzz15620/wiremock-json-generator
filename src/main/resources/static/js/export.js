@@ -67,11 +67,27 @@ export function exportJson() {
     const requestBodyMatcher = document.getElementById('bodyMatcher');  // Sử dụng matcher cho request body
 
     if (requestBody && requestBody.value && requestBodyMatcher) {
-        requestBodyField = {
-            bodyPatterns: [
-                { [requestBodyMatcher.value]: requestBody.value }
-            ]
-        };
+        // Nếu matcher là 'equalToJson', kiểm tra xem Request Body có phải là JSON hợp lệ không
+        if (requestBodyMatcher.value === 'equalToJson') {
+            const parsedRequestBody = tryParseJSON(requestBody.value);
+            if (parsedRequestBody) {
+                requestBodyField = {
+                    bodyPatterns: [
+                        { [requestBodyMatcher.value]: parsedRequestBody }
+                    ]
+                };
+            } else {
+                alert("Invalid JSON format in request body.");
+                return;
+            }
+        } else {
+            // Nếu không phải matcher JSON, chỉ cần lấy chuỗi body bình thường
+            requestBodyField = {
+                bodyPatterns: [
+                    { [requestBodyMatcher.value]: requestBody.value }
+                ]
+            };
+        }
     }
 
     // Tạo object JSON theo định dạng bạn yêu cầu
