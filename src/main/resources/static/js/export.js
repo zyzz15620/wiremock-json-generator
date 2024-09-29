@@ -67,9 +67,23 @@ export function exportJson() {
         ...responseBodyField
     };
 
-    // Only add the headers field if there are actual headers
+    // Add the headers field if there are actual headers
     if (Object.keys(responseHeaders).length > 0) {
         response.headers = responseHeaders;
+    }
+
+    // Add fixedDelayMilliseconds if the checkbox is checked
+    if (document.getElementById('includeFixedDelay').checked) {
+        const fixedDelayValue = parseInt(document.getElementById('fixedDelayValue').value);
+        if (!isNaN(fixedDelayValue)) {
+            response.fixedDelayMilliseconds = fixedDelayValue;
+        }
+    }
+
+    // Add fault if the checkbox is checked
+    if (document.getElementById('includeFault').checked) {
+        const faultValue = document.getElementById('faultValue').value;
+        response.fault = faultValue;
     }
 
     // Build and display the JSON structure
