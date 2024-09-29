@@ -1,21 +1,6 @@
 import { getRequestMatchers } from './request.js';
 import { getResponseHeaders } from './response.js';
 
-// Hàm để kiểm tra và parse JSON nếu hợp lệ
-function tryParseJSON(jsonString) {
-    try {
-        const parsed = JSON.parse(jsonString);
-        if (typeof parsed === 'object' && parsed !== null) {
-            return parsed;
-        } else {
-            return null;
-        }
-    } catch (e) {
-        return null;
-    }
-}
-
-// Hàm để xuất JSON
 export function exportJson() {
     const method = document.getElementById('method').value;
     const urlOption = document.getElementById('urlOption').value;
@@ -24,17 +9,23 @@ export function exportJson() {
     const bodyType = document.getElementById('bodyType').value;
     const responseBody = document.getElementById('responseBody').value;
 
-    // Xử lý lỗi nhập liệu
+    // Validate URL and Method
     if (!urlValue || !method) {
-        alert('URL và Method là bắt buộc!');
+        alert('URL and Method are required!');
         return;
     }
 
-    // Lấy request matchers và response headers
+    // Retrieve request matchers and response headers
     const requestMatchers = getRequestMatchers();
     const responseHeaders = getResponseHeaders();
 
-    // Xử lý phần Response Body tùy thuộc vào loại Body Type
+    // Check if Content-Type exists in response headers
+    let contentTypeExists = false;
+    if (responseHeaders.hasOwnProperty('Content-Type')) {
+        contentTypeExists = true;
+    }
+
+    // Handle Response Body based on body type
     let responseBodyField = {};
     let contentType = '';
 
@@ -61,36 +52,19 @@ export function exportJson() {
         contentType = 'text/plain';
     }
 
-    // Kiểm tra và xử lý Request Body nếu có
-    let requestBodyField = {};
-    const requestBody = document.getElementById('bodyValue'); // Đảm bảo lấy đúng id của request body field
-    const requestBodyMatcher = document.getElementById('bodyMatcher');  // Sử dụng matcher cho request body
+    // Construct the response object
+    let response = {
+        status: status,
+        ...responseBodyField,
+        headers: responseHeaders
+    };
 
-    if (requestBody && requestBody.value && requestBodyMatcher) {
-        // Nếu matcher là 'equalToJson', kiểm tra xem Request Body có phải là JSON hợp lệ không
-        if (requestBodyMatcher.value === 'equalToJson') {
-            const parsedRequestBody = tryParseJSON(requestBody.value);
-            if (parsedRequestBody) {
-                requestBodyField = {
-                    bodyPatterns: [
-                        { [requestBodyMatcher.value]: parsedRequestBody }
-                    ]
-                };
-            } else {
-                alert("Invalid JSON format in request body.");
-                return;
-            }
-        } else {
-            // Nếu không phải matcher JSON, chỉ cần lấy chuỗi body bình thường
-            requestBodyField = {
-                bodyPatterns: [
-                    { [requestBodyMatcher.value]: requestBody.value }
-                ]
-            };
-        }
+    // Add the Content-Type only if it exists in the response headers
+    if (contentTypeExists) {
+        response.headers['Content-Type'] = contentType;
     }
 
-    // Tạo object JSON theo định dạng bạn yêu cầu
+    // Create the JSON structure
     const jsonStub = {
         mappings: [
             {
@@ -98,21 +72,13 @@ export function exportJson() {
                     [urlOption]: urlValue,
                     method: method,
                     ...requestMatchers,
-                    ...requestBodyField  // Thêm body matcher cho Request nếu có
                 },
-                response: {
-                    status: status,
-                    headers: {
-                        "Content-Type": contentType,
-                        ...responseHeaders
-                    },
-                    ...responseBodyField  // Chèn bodyField dựa trên Response Body Type
-                }
+                response: response
             }
         ]
     };
 
-    // Hiển thị JSON ra textarea
+    // Display JSON in the output area
     const prettyJson = JSON.stringify(jsonStub, null, 4);
     document.getElementById('jsonOutput').value = prettyJson;
 }
