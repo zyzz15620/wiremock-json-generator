@@ -5,71 +5,108 @@
     <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
-<h1>WireMock Stub JSON Generator</h1>
+<div class="container">
+    <h1>WireMock Stub JSON Generator</h1>
 
-<!-- Phần Request -->
-<div class="section">
-    <h2>Request</h2>
+    <!-- Phần Request -->
+    <div class="section">
+        <h2>Request</h2>
 
-    <div class="field-group">
-        <label for="method">Method:</label>
-        <select id="method" required>
-            <option value="GET">GET</option>
-            <option value="POST">POST</option>
-            <option value="PUT">PUT</option>
-            <option value="PATCH">PATCH</option>
-            <option value="DELETE">DELETE</option>
-            <option value="OPTIONS">OPTIONS</option>
-        </select>
+        <div class="field-group">
+            <label for="method">Method:</label>
+            <select id="method" required>
+                <option value="GET">GET</option>
+                <option value="POST">POST</option>
+                <option value="PUT">PUT</option>
+                <option value="PATCH">PATCH</option>
+                <option value="DELETE">DELETE</option>
+                <option value="OPTIONS">OPTIONS</option>
+            </select>
+        </div>
+
+        <div class="field-group">
+            <label for="urlOption">URL Option:</label>
+            <select id="urlOption" required>
+                <option value="url">URL</option>
+                <option value="urlPath">URL Path</option>
+                <option value="urlPattern">URL Pattern (regex)</option>
+                <option value="urlPathPattern">URL Path Pattern (regex)</option>
+                <option value="urlEqualTo">URL Equal To</option>
+                <option value="urlPathEqualTo">URL Path Equal To</option>
+            </select>
+            <input type="text" id="urlValue" placeholder="Enter URL Value" required>
+        </div>
+
+        <div class="field-group">
+            <label>Request Matching:</label>
+            <div id="requestMatchingContainer"></div>
+            <button type="button" class="add-button" id="addRequestMatcher">Add Request Matching</button>
+        </div>
+
+        <!-- Thêm checkbox để kích hoạt phần Body -->
+        <div class="field-group">
+            <label for="includeBody">
+                <input type="checkbox" id="includeBody" onchange="toggleBodyMatchers()"> Include Body
+            </label>
+        </div>
+
+        <!-- Phần body matcher sẽ ẩn nếu checkbox không được chọn -->
+        <div id="bodyMatcherSection" style="display:none;">
+            <div class="field-group">
+                <label for="bodyMatcher">Body Matcher Type:</label>
+                <select id="bodyMatcher" required>
+                    <option value="equalToJson">equalToJson</option>
+                    <option value="matchesJsonPath">matchesJsonPath</option>
+                    <option value="equalToXml">equalToXml</option>
+                    <option value="matchesXPath">matchesXPath</option>
+                    <option value="contains">contains</option>
+                    <option value="matches">matches (regex)</option>
+                </select>
+            </div>
+
+            <div class="field-group">
+                <label for="bodyValue">Body Value:</label>
+                <textarea id="bodyValue" placeholder="Enter Body Value"></textarea>
+            </div>
+        </div>
     </div>
 
-    <div class="field-group">
-        <label for="urlPath">URL Path:</label>
-        <input type="text" id="urlPath" placeholder="Enter URL Path" required>
+    <!-- Phần Response -->
+    <div class="section">
+        <h2>Response</h2>
+        <div class="field-group">
+            <label for="status">Status Code:</label>
+            <input type="number" id="status" placeholder="Enter Status Code" value="200" required>
+        </div>
+
+        <div class="field-group">
+            <label>Response Headers:</label>
+            <div id="responseHeadersContainer"></div>
+            <button type="button" class="add-button" id="addResponseHeader">Add Response Header</button>
+        </div>
+
+        <div class="field-group">
+            <label for="bodyType">Body Type:</label>
+            <select id="bodyType" onchange="toggleBodyInput()" required>
+                <option value="json">JSON</option>
+                <option value="text">Text</option>
+                <option value="xml">XML</option>
+                <option value="html">HTML</option>
+                <option value="base64">Base64</option>
+            </select>
+        </div>
+
+        <div class="field-group" id="bodyContainer">
+            <label for="responseBody">Response Body:</label>
+            <textarea id="responseBody" placeholder="Enter Response Body" required></textarea>
+        </div>
     </div>
 
-    <div class="field-group">
-        <label>Request Matching:</label>
-        <div id="requestMatchingContainer"></div>
-        <button type="button" class="add-button" id="addRequestMatcher">Add Request Matching</button>
+    <!-- Nút Export và Kết quả JSON -->
+    <div class="section">
+        <button id="exportBtn">Export JSON</button>
+        <textarea id="jsonOutput" placeholder="JSON output will appear here..."></textarea>
     </div>
-</div>
-
-<!-- Phần Response -->
-<div class="section">
-    <h2>Response</h2>
-    <div class="field-group">
-        <label for="status">Status Code:</label>
-        <input type="number" id="status" placeholder="Enter Status Code" value="200" required>
-    </div>
-
-    <div class="field-group">
-        <label>Response Headers:</label>
-        <div id="responseHeadersContainer"></div>
-        <button type="button" class="add-button" id="addResponseHeader">Add Response Header</button>
-    </div>
-
-    <div class="field-group">
-        <label for="bodyType">Body Type:</label>
-        <select id="bodyType" onchange="toggleBodyInput()" required>
-            <option value="json">JSON</option>
-            <option value="text">Text</option>
-            <option value="xml">XML</option>
-            <option value="html">HTML</option>
-            <option value="base64">Base64</option>
-        </select>
-    </div>
-
-    <div class="field-group" id="bodyContainer">
-        <label for="responseBody">Response Body:</label>
-        <textarea id="responseBody" placeholder="Enter Response Body" required></textarea>
-    </div>
-</div>
-
-<!-- Nút Export và Kết quả JSON -->
-<div class="section">
-    <button id="exportBtn">Export JSON</button>
-    <textarea id="jsonOutput" placeholder="JSON output will appear here..."></textarea>
 </div>
 
 <script type="module" src="/js/scripts.js"></script>

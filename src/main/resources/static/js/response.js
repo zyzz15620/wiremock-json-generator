@@ -11,7 +11,6 @@ export function addResponseHeader() {
     keyInput.required = true;
 
     const valueInput = document.createElement('input');
-    valueInput.type = 'text';
     keyInput.placeholder = 'Header Value';
     valueInput.required = true;
 
