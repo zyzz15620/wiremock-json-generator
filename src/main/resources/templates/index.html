@@ -2,19 +2,21 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>WireMock JSON Generator</title>
+    <!-- Thêm Bootstrap CDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
 <div class="container">
-    <h1>WireMock Stub JSON Generator</h1>
+    <h1 class="text-center my-4">WireMock Stub JSON Generator</h1>
 
     <!-- Phần Request -->
     <div class="section">
         <h2>Request</h2>
 
-        <div class="field-group">
+        <div class="form-group">
             <label for="method">Method:</label>
-            <select id="method" required>
+            <select id="method" class="form-control" required>
                 <option value="GET">GET</option>
                 <option value="POST">POST</option>
                 <option value="PUT">PUT</option>
@@ -24,9 +26,9 @@
             </select>
         </div>
 
-        <div class="field-group">
+        <div class="form-group">
             <label for="urlOption">URL Option:</label>
-            <select id="urlOption" required>
+            <select id="urlOption" class="form-control" required>
                 <option value="url">URL</option>
                 <option value="urlPath">URL Path</option>
                 <option value="urlPattern">URL Pattern (regex)</option>
@@ -34,27 +36,26 @@
                 <option value="urlEqualTo">URL Equal To</option>
                 <option value="urlPathEqualTo">URL Path Equal To</option>
             </select>
-            <input type="text" id="urlValue" placeholder="Enter URL Value" required>
+            <input type="text" id="urlValue" class="form-control mt-2" placeholder="Enter URL Value" required>
         </div>
 
-        <div class="field-group">
+        <div class="form-group">
             <label>Request Matching:</label>
             <div id="requestMatchingContainer"></div>
-            <button type="button" class="add-button" id="addRequestMatcher">Add Request Matching</button>
+            <button type="button" class="btn btn-primary mt-2" id="addRequestMatcher">Add Request Matching</button>
         </div>
 
         <!-- Thêm checkbox để kích hoạt phần Body -->
-        <div class="field-group">
-            <label for="includeBody">
-                <input type="checkbox" id="includeBody" onchange="toggleBodyMatchers()"> Include Body
-            </label>
+        <div class="form-group form-check">
+            <input type="checkbox" class="form-check-input" id="includeBody" onchange="toggleBodyMatchers()">
+            <label class="form-check-label" for="includeBody">Include Body</label>
         </div>
 
         <!-- Phần body matcher sẽ ẩn nếu checkbox không được chọn -->
-        <div id="bodyMatcherSection" style="display:none;">
-            <div class="field-group">
+        <div id="bodyMatcherSection" class="mt-3" style="display:none;">
+            <div class="form-group">
                 <label for="bodyMatcher">Body Matcher Type:</label>
-                <select id="bodyMatcher" required>
+                <select id="bodyMatcher" class="form-control" required>
                     <option value="equalToJson">equalToJson</option>
                     <option value="matchesJsonPath">matchesJsonPath</option>
                     <option value="equalToXml">equalToXml</option>
@@ -64,9 +65,9 @@
                 </select>
             </div>
 
-            <div class="field-group">
+            <div class="form-group">
                 <label for="bodyValue">Body Value:</label>
-                <textarea id="bodyValue" rows="10" placeholder="Enter Body Value"></textarea>
+                <textarea id="bodyValue" class="form-control" rows="6" placeholder="Enter Body Value"></textarea>
             </div>
         </div>
     </div>
@@ -74,20 +75,20 @@
     <!-- Phần Response -->
     <div class="section">
         <h2>Response</h2>
-        <div class="field-group">
+        <div class="form-group">
             <label for="status">Status Code:</label>
-            <input type="number" id="status" placeholder="Enter Status Code" value="200" required>
+            <input type="number" id="status" class="form-control" placeholder="Enter Status Code" value="200" required>
         </div>
 
-        <div class="field-group">
+        <div class="form-group">
             <label>Response Headers:</label>
             <div id="responseHeadersContainer"></div>
-            <button type="button" class="add-button" id="addResponseHeader">Add Response Header</button>
+            <button type="button" class="btn btn-primary mt-2" id="addResponseHeader">Add Response Header</button>
         </div>
 
-        <div class="field-group">
+        <div class="form-group">
             <label for="bodyType">Body Type:</label>
-            <select id="bodyType" onchange="toggleBodyInput()" required>
+            <select id="bodyType" class="form-control" onchange="toggleBodyInput()" required>
                 <option value="json">JSON</option>
                 <option value="text">Text</option>
                 <option value="xml">XML</option>
@@ -96,19 +97,18 @@
             </select>
         </div>
 
-        <div class="field-group" id="bodyContainer">
+        <div class="form-group" id="bodyContainer">
             <label for="responseBody">Response Body:</label>
-            <textarea id="responseBody" rows="10" placeholder="Enter Response Body" required></textarea>
+            <textarea id="responseBody" class="form-control" rows="6" placeholder="Enter Response Body" required></textarea>
         </div>
     </div>
 
     <!-- Nút Export và Kết quả JSON -->
-    <div class="section">
-        <button id="exportBtn">Export JSON</button>
-        <textarea id="jsonOutput" placeholder="JSON output will appear here..."></textarea>
-    </div>
+    <button id="exportBtn" class="btn btn-success">Export JSON</button>
+    <textarea id="jsonOutput" class="form-control mt-3" rows="10" placeholder="JSON output will appear here..."></textarea>
 </div>
 
+<!-- JS -->
 <script type="module" src="/js/scripts.js"></script>
 </body>
 </html>

@@ -3,9 +3,10 @@ export function addRequestMatcher() {
     const container = document.getElementById('requestMatchingContainer');
 
     const matcherDiv = document.createElement('div');
-    matcherDiv.className = 'dynamic-item';
+    matcherDiv.className = 'dynamic-item row mb-2';  // Thêm Bootstrap row và margin bottom
 
     const typeSelect = document.createElement('select');
+    typeSelect.className = 'form-control col';  // Áp dụng Bootstrap form-control
     typeSelect.innerHTML = `
         <option value="queryParameters">Query Parameter</option>
         <option value="headers">Header</option>
@@ -18,9 +19,11 @@ export function addRequestMatcher() {
     const keyInput = document.createElement('input');
     keyInput.type = 'text';
     keyInput.placeholder = 'Key';
+    keyInput.className = 'form-control col';  // Áp dụng Bootstrap form-control
     keyInput.required = true;
 
     const matchSelect = document.createElement('select');
+    matchSelect.className = 'form-control col';  // Áp dụng Bootstrap form-control
     matchSelect.innerHTML = `
         <option value="equalTo">equals</option>
         <option value="contains">contains</option>
@@ -32,10 +35,12 @@ export function addRequestMatcher() {
     const valueInput = document.createElement('input');
     valueInput.type = 'text';
     valueInput.placeholder = 'Value';
+    valueInput.className = 'form-control col';  // Áp dụng Bootstrap form-control
     valueInput.required = true;
 
     const deleteButton = document.createElement('button');
     deleteButton.type = 'button';
+    deleteButton.className = 'btn btn-danger col-auto';  // Áp dụng Bootstrap button
     deleteButton.textContent = 'Delete';
     deleteButton.onclick = () => container.removeChild(matcherDiv);
 
