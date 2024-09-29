@@ -7,8 +7,8 @@ export function exportJson() {
     const urlOption = document.getElementById('urlOption').value;  // Lấy URL Option (url, urlPath,...)
     const urlValue = document.getElementById('urlValue').value;    // Lấy giá trị URL từ input
     const status = parseInt(document.getElementById('status').value);
-    const bodyType = document.getElementById('bodyType').value;
-    const responseBody = document.getElementById('responseBody').value;
+    const bodyType = document.getElementById('bodyType').value;    // Lấy giá trị Body Type
+    const responseBody = document.getElementById('responseBody').value;  // Lấy giá trị Response Body
 
     // Xử lý lỗi nhập liệu
     if (!urlValue || !method) {
@@ -20,16 +20,25 @@ export function exportJson() {
     const requestMatchers = getRequestMatchers();
     const responseHeaders = getResponseHeaders();
 
-    // Xử lý phần Body nếu người dùng chọn Include Body
-    let bodyMatcher = {};
-    if (document.getElementById('includeBody').checked) {
-        const bodyMatcherType = document.getElementById('bodyMatcher').value;
-        const bodyValue = document.getElementById('bodyValue').value;
-        bodyMatcher = {
-            bodyPatterns: [
-                { [bodyMatcherType]: bodyValue }
-            ]
-        };
+    // Xử lý phần Body tùy thuộc vào loại Body Type
+    let bodyField = {};
+    let contentType = '';  // Biến để lưu trữ Content-Type
+
+    if (bodyType === 'json') {
+        bodyField = { "jsonBody": responseBody };
+        contentType = 'application/json';
+    } else if (bodyType === 'xml') {
+        bodyField = { "xmlBody": responseBody };
+        contentType = 'application/xml';
+    } else if (bodyType === 'html') {
+        bodyField = { "htmlBody": responseBody };
+        contentType = 'text/html';
+    } else if (bodyType === 'base64') {
+        bodyField = { "base64Body": responseBody };
+        contentType = 'application/base64';  // Bạn có thể dùng loại này nếu cần cho base64
+    } else if (bodyType === 'text') {
+        bodyField = { "body": responseBody };
+        contentType = 'text/plain';
     }
 
     // Tạo object JSON theo định dạng bạn yêu cầu
@@ -39,16 +48,15 @@ export function exportJson() {
                 request: {
                     [urlOption]: urlValue,  // URL Option sẽ quyết định loại khớp URL nào được dùng
                     method: method,
-                    ...requestMatchers,
-                    ...bodyMatcher  // Thêm matcher cho Body nếu có
+                    ...requestMatchers
                 },
                 response: {
                     status: status,
-                    body: responseBody,
                     headers: {
-                        "Content-Type": bodyType === 'json' ? "application/json" : "text/plain",
+                        "Content-Type": contentType,  // Gán giá trị Content-Type theo Body Type
                         ...responseHeaders
-                    }
+                    },
+                    ...bodyField  // Chèn bodyField dựa trên Body Type
                 }
             }
         ]

@@ -15,12 +15,17 @@ function toggleBodyMatchers() {
     }
 }
 
-// Hàm sao chép JSON từ textarea vào clipboard
+// Hàm sao chép JSON từ textarea vào clipboard và hiển thị thông báo "Copied!"
 function copyToClipboard() {
     const jsonOutput = document.getElementById('jsonOutput');
     jsonOutput.select(); // Chọn toàn bộ nội dung của textarea
     document.execCommand('copy'); // Sao chép nội dung đã chọn vào clipboard
-    alert('JSON copied to clipboard!');
+
+    const copyButton = document.getElementById('copyBtn');
+    copyButton.textContent = 'Copied!';  // Thay đổi văn bản nút thành "Copied!"
+    setTimeout(() => {
+        copyButton.textContent = 'Copy JSON';  // Đổi lại thành "Copy JSON" sau 2 giây
+    }, 2000);  // Thời gian hiển thị thông báo (2 giây)
 }
 
 // Gán sự kiện cho nút Export và Body Matchers
