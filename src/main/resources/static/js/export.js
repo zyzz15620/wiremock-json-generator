@@ -1,6 +1,17 @@
 import { getRequestMatchers } from './request.js';
 import { getResponseHeaders } from './response.js';
 
+// Define the tryParseJSON function
+function tryParseJSON(jsonString) {
+    try {
+        const parsed = JSON.parse(jsonString);
+        return parsed;
+    } catch (e) {
+        console.error("Invalid JSON string:", e);
+        return null;
+    }
+}
+
 export function exportJson() {
     const method = document.getElementById('method').value;
     const urlOption = document.getElementById('urlOption').value;

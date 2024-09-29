@@ -199,6 +199,16 @@
                 break;
         }
     }
+    function toggleBodyMatchers() {
+        const includeBody = document.getElementById('includeBody').checked;
+        const bodyMatcherSection = document.getElementById('bodyMatcherSection');
+
+        if (includeBody) {
+            bodyMatcherSection.style.display = 'block';
+        } else {
+            bodyMatcherSection.style.display = 'none';
+        }
+    }
 </script>
 </body>
 </html>
