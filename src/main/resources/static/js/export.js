@@ -1,6 +1,24 @@
 import { getRequestMatchers } from './request.js';
 import { getResponseHeaders } from './response.js';
 
+// Hàm để kiểm tra và parse JSON nếu hợp lệ
+function tryParseJSON(jsonString) {
+    try {
+        // Thử parse JSON
+        const parsed = JSON.parse(jsonString);
+
+        // Kiểm tra nếu parsed là đối tượng hoặc mảng hợp lệ
+        if (typeof parsed === 'object' && parsed !== null) {
+            return parsed;
+        } else {
+            return null;
+        }
+    } catch (e) {
+        // Trả về null nếu không phải JSON hợp lệ
+        return null;
+    }
+}
+
 // Hàm để xuất JSON
 export function exportJson() {
     const method = document.getElementById('method').value;
@@ -9,6 +27,9 @@ export function exportJson() {
     const status = parseInt(document.getElementById('status').value);
     const bodyType = document.getElementById('bodyType').value;    // Lấy giá trị Body Type
     const responseBody = document.getElementById('responseBody').value;  // Lấy giá trị Response Body
+
+    // Log giá trị responseBody nhập vào từ form
+    console.log("Raw responseBody:", responseBody);
 
     // Xử lý lỗi nhập liệu
     if (!urlValue || !method) {
@@ -24,9 +45,18 @@ export function exportJson() {
     let bodyField = {};
     let contentType = '';  // Biến để lưu trữ Content-Type
 
+    // Kiểm tra và parse JSON body (nếu là JSON)
     if (bodyType === 'json') {
-        bodyField = { "jsonBody": responseBody };
-        contentType = 'application/json';
+        const parsedBody = tryParseJSON(responseBody);  // Thử parse JSON
+        if (parsedBody) {
+            // Nếu parse thành công, sử dụng đối tượng JSON thực
+            bodyField = { "jsonBody": parsedBody };
+            contentType = 'application/json';
+        } else {
+            // Nếu không phải JSON hợp lệ, hiển thị thông báo lỗi
+            alert("Invalid JSON format in response body, check if u are missing {}.");
+            return;
+        }
     } else if (bodyType === 'xml') {
         bodyField = { "xmlBody": responseBody };
         contentType = 'application/xml';
