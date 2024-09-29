@@ -3,83 +3,33 @@ import { addResponseHeader } from './response.js';
 import { exportJson } from './export.js';
 import { setContentTypeBasedOnBodyType } from './response.js';
 
-// Hàm để bật/tắt phần Body Matchers
+// Toggle visibility of Body Matchers section
 function toggleBodyMatchers() {
     const includeBody = document.getElementById('includeBody').checked;
     const bodySection = document.getElementById('bodyMatcherSection');
-
-    // Hiển thị hoặc ẩn phần Body Matcher dựa vào checkbox
-    if (includeBody) {
-        bodySection.style.display = 'block'; // Hiển thị phần body matcher khi checkbox được tích
-    } else {
-        bodySection.style.display = 'none';  // Ẩn phần body matcher nếu checkbox không được tích
-    }
+    bodySection.style.display = includeBody ? 'block' : 'none';
 }
 
-// Hàm sao chép JSON từ textarea vào clipboard và hiển thị thông báo "Copied!"
+// Copy JSON output to clipboard
 function copyToClipboard() {
     const jsonOutput = document.getElementById('jsonOutput');
-    if (jsonOutput) {  // Kiểm tra xem phần tử jsonOutput có tồn tại không
-        jsonOutput.select(); // Chọn toàn bộ nội dung của textarea
-        document.execCommand('copy'); // Sao chép nội dung đã chọn vào clipboard
-
+    if (jsonOutput) {
+        jsonOutput.select();
+        document.execCommand('copy');
         const copyButton = document.getElementById('copyBtn');
-        copyButton.textContent = 'Copied!';  // Thay đổi văn bản nút thành "Copied!"
-        setTimeout(() => {
-            copyButton.textContent = 'Copy JSON';  // Đổi lại thành "Copy JSON" sau 2 giây
-        }, 2000);  // Thời gian hiển thị thông báo (2 giây)
-    } else {
-        console.error('jsonOutput element not found');
+        copyButton.textContent = 'Copied!';
+        setTimeout(() => copyButton.textContent = 'Copy JSON', 2000);
     }
 }
 
-// Gán sự kiện cho nút Export và Body Matchers
-const exportBtn = document.getElementById('exportBtn');
-if (exportBtn) {
-    exportBtn.addEventListener('click', exportJson);
-} else {
-    console.error('exportBtn element not found');
-}
-
-const includeBodyCheckbox = document.getElementById('includeBody');
-if (includeBodyCheckbox) {
-    includeBodyCheckbox.addEventListener('change', toggleBodyMatchers);
-} else {
-    console.error('includeBody element not found');
-}
-
-const copyBtn = document.getElementById('copyBtn');
-if (copyBtn) {
-    copyBtn.addEventListener('click', copyToClipboard);
-} else {
-    console.error('copyBtn element not found');
-}
-
-// Gán sự kiện riêng cho nút Add Request Matching
-const addRequestMatcherBtn = document.getElementById('addRequestMatcher');
-if (addRequestMatcherBtn) {
-    addRequestMatcherBtn.addEventListener('click', addRequestMatcher);
-} else {
-    console.error('addRequestMatcher element not found');
-}
-
-// Gán sự kiện riêng cho nút Add Response Header
-const addResponseHeaderBtn = document.getElementById('addResponseHeader');
-if (addResponseHeaderBtn) {
-    addResponseHeaderBtn.addEventListener('click', addResponseHeader);
-} else {
-    console.error('addResponseHeader element not found');
-}
-
-const bodyTypeSelect = document.getElementById('bodyType');
-if (bodyTypeSelect) {
-    bodyTypeSelect.addEventListener('change', () => {
-        updateResponseBodyPlaceholder();
-        setContentTypeBasedOnBodyType();  // Call the new function here
-    });
-}
+// Bind event listeners
+document.getElementById('exportBtn').addEventListener('click', exportJson);
+document.getElementById('includeBody').addEventListener('change', toggleBodyMatchers);
+document.getElementById('copyBtn').addEventListener('click', copyToClipboard);
+document.getElementById('addRequestMatcher').addEventListener('click', addRequestMatcher);
+document.getElementById('addResponseHeader').addEventListener('click', addResponseHeader);
+document.getElementById('bodyType').addEventListener('change', setContentTypeBasedOnBodyType);
 
 document.addEventListener('DOMContentLoaded', () => {
-    setContentTypeBasedOnBodyType();  // Ensure Content-Type is set on page load
+    setContentTypeBasedOnBodyType();
 });
-

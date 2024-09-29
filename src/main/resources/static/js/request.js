@@ -1,12 +1,12 @@
-// Hàm để thêm một Request Matching
+// Add a new Request Matching block
 export function addRequestMatcher() {
     const container = document.getElementById('requestMatchingContainer');
 
     const matcherDiv = document.createElement('div');
-    matcherDiv.className = 'dynamic-item row mb-2';  // Thêm Bootstrap row và margin bottom
+    matcherDiv.className = 'dynamic-item row mb-2';
 
     const typeSelect = document.createElement('select');
-    typeSelect.className = 'form-control col';  // Áp dụng Bootstrap form-control
+    typeSelect.className = 'form-control col';
     typeSelect.innerHTML = `
         <option value="queryParameters">Query Parameter</option>
         <option value="headers">Header</option>
@@ -19,11 +19,11 @@ export function addRequestMatcher() {
     const keyInput = document.createElement('input');
     keyInput.type = 'text';
     keyInput.placeholder = 'Key';
-    keyInput.className = 'form-control col';  // Áp dụng Bootstrap form-control
+    keyInput.className = 'form-control col';
     keyInput.required = true;
 
     const matchSelect = document.createElement('select');
-    matchSelect.className = 'form-control col';  // Áp dụng Bootstrap form-control
+    matchSelect.className = 'form-control col';
     matchSelect.innerHTML = `
         <option value="equalTo">equals</option>
         <option value="contains">contains</option>
@@ -35,25 +35,20 @@ export function addRequestMatcher() {
     const valueInput = document.createElement('input');
     valueInput.type = 'text';
     valueInput.placeholder = 'Value';
-    valueInput.className = 'form-control col';  // Áp dụng Bootstrap form-control
+    valueInput.className = 'form-control col';
     valueInput.required = true;
 
     const deleteButton = document.createElement('button');
     deleteButton.type = 'button';
-    deleteButton.className = 'btn btn-danger col-auto';  // Áp dụng Bootstrap button
+    deleteButton.className = 'btn btn-danger col-auto';
     deleteButton.textContent = 'Delete';
     deleteButton.onclick = () => container.removeChild(matcherDiv);
 
-    matcherDiv.appendChild(typeSelect);
-    matcherDiv.appendChild(keyInput);
-    matcherDiv.appendChild(matchSelect);
-    matcherDiv.appendChild(valueInput);
-    matcherDiv.appendChild(deleteButton);
-
+    matcherDiv.append(typeSelect, keyInput, matchSelect, valueInput, deleteButton);
     container.appendChild(matcherDiv);
 }
 
-// Hàm để lấy tất cả các request matchers
+// Retrieve all request matchers
 export function getRequestMatchers() {
     const requestMatchers = {};
     const requestMatchingElements = document.querySelectorAll('#requestMatchingContainer .dynamic-item');

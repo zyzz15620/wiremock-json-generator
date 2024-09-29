@@ -2,7 +2,6 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>WireMock JSON Generator</title>
-    <!-- Thêm Bootstrap CDN -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/styles.css">
 </head>
@@ -10,10 +9,9 @@
 <div class="container">
     <h1 class="text-center my-4">WireMock Stub JSON Generator</h1>
 
-    <!-- Phần Request -->
+    <!-- Request Section -->
     <div class="section">
         <h2>Request</h2>
-
         <div class="form-group">
             <label for="method">Method:</label>
             <select id="method" class="form-control" required>
@@ -43,13 +41,12 @@
             <button type="button" class="btn btn-primary mt-2" id="addRequestMatcher">Add Request Matching</button>
         </div>
 
-        <!-- Thêm checkbox để kích hoạt phần Body -->
+        <!-- Toggle for including body matchers -->
         <div class="form-group form-check">
             <input type="checkbox" class="form-check-input" id="includeBody" onchange="toggleBodyMatchers()">
             <label class="form-check-label" for="includeBody">Include Request Body</label>
         </div>
 
-        <!-- Phần body matcher sẽ ẩn nếu checkbox không được chọn -->
         <div id="bodyMatcherSection" class="mt-3" style="display:none;">
             <div class="form-group">
                 <label for="bodyMatcher">Request Body Matcher Type:</label>
@@ -64,7 +61,6 @@
                     <option value="doesNotMatch">doesNotMatch</option>
                 </select>
             </div>
-
             <div class="form-group">
                 <label for="bodyValue">Request Body Value:</label>
                 <textarea id="bodyValue" class="form-control" rows="6" placeholder="Enter Request Body Value"></textarea>
@@ -72,7 +68,7 @@
         </div>
     </div>
 
-    <!-- Phần Response -->
+    <!-- Response Section -->
     <div class="section">
         <h2>Response</h2>
         <div class="form-group">
@@ -103,112 +99,17 @@
         </div>
     </div>
 
-    <!-- Nút Export và Kết quả JSON -->
+    <!-- Export and JSON Output Section -->
     <div class="section">
         <button id="exportBtn" class="btn btn-success">Export JSON</button>
-        <button id="copyBtn" class="btn btn-secondary ml-2">Copy JSON</button> <!-- Thêm nút Copy -->
+        <button id="copyBtn" class="btn btn-secondary ml-2">Copy JSON</button>
         <textarea id="jsonOutput" class="form-control mt-3" rows="10" placeholder="JSON output will appear here..."></textarea>
     </div>
 </div>
 
-<!-- JS -->
+<!-- JS Scripts -->
 <script type="module" src="/js/scripts.js"></script>
+<script src="script_placeholder.js"></script> <!-- Placeholder logic here -->
 
-<!-- Thêm logic cho placeholder -->
-<script>
-    function updateBodyPlaceholder() {
-        const bodyMatcher = document.getElementById('bodyMatcher').value;
-        const bodyValue = document.getElementById('bodyValue');
-
-        switch (bodyMatcher) {
-            case 'equalTo':
-                bodyValue.placeholder = '"equalTo": "some body content"';
-                break;
-            case 'equalToJson':
-                bodyValue.placeholder = '{ "key": "value" }';
-                break;
-            case 'equalToXml':
-                bodyValue.placeholder = '<root><key>value</key></root>';
-                break;
-            case 'matchesXPath':
-                bodyValue.placeholder = "/root/key[text() = 'value']";
-                break;
-            case 'matchesJsonPath':
-                bodyValue.placeholder = "$.key[?(@ == 'value')]";
-                break;
-            case 'contains':
-                bodyValue.placeholder = '"contains": "some text"';
-                break;
-            case 'matches':
-                bodyValue.placeholder = '".some pattern."';
-                break;
-            case 'doesNotMatch':
-                bodyValue.placeholder = '".some pattern."';
-                break;
-            default:
-                bodyValue.placeholder = 'Enter Request Body Value';
-                break;
-        }
-    }
-
-    function updateUrlPlaceholder() {
-        const urlOption = document.getElementById('urlOption').value;
-        const urlValue = document.getElementById('urlValue');
-
-        switch (urlOption) {
-            case 'url':
-                urlValue.placeholder = '/your/url?and=query';
-                break;
-            case 'urlPath':
-                urlValue.placeholder = '/your/url';
-                break;
-            case 'urlPattern':
-                urlValue.placeholder = '/your/([a-z]*)\\?and=query';
-                break;
-            case 'urlPathPattern':
-                urlValue.placeholder = '/your/([a-z]*)';
-                break;
-            default:
-                urlValue.placeholder = '/your/url';
-                break;
-        }
-    }
-
-    function updateResponseBodyPlaceholder() {
-        const bodyType = document.getElementById('bodyType').value;
-        const responseBody = document.getElementById('responseBody');
-
-        switch (bodyType) {
-            case 'json':
-                responseBody.placeholder = '{ "key": "value" }';
-                break;
-            case 'text':
-                responseBody.placeholder = 'Sample plain text response';
-                break;
-            case 'xml':
-                responseBody.placeholder = '<root><key>value</key></root>';
-                break;
-            case 'html':
-                responseBody.placeholder = '<html><body><h1>Your HTML content</h1></body></html>';
-                break;
-            case 'base64':
-                responseBody.placeholder = 'SGVsbG8gd29ybGQ='; // "Hello world" in Base64
-                break;
-            default:
-                responseBody.placeholder = 'Enter Response Body';
-                break;
-        }
-    }
-    function toggleBodyMatchers() {
-        const includeBody = document.getElementById('includeBody').checked;
-        const bodyMatcherSection = document.getElementById('bodyMatcherSection');
-
-        if (includeBody) {
-            bodyMatcherSection.style.display = 'block';
-        } else {
-            bodyMatcherSection.style.display = 'none';
-        }
-    }
-</script>
 </body>
 </html>

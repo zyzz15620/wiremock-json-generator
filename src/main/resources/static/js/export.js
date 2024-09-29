@@ -1,17 +1,17 @@
 import { getRequestMatchers } from './request.js';
 import { getResponseHeaders } from './response.js';
 
-// Define the tryParseJSON function
+// Define a helper function for safely parsing JSON
 function tryParseJSON(jsonString) {
     try {
-        const parsed = JSON.parse(jsonString);
-        return parsed;
+        return JSON.parse(jsonString);
     } catch (e) {
         console.error("Invalid JSON string:", e);
         return null;
     }
 }
 
+// Function to export the JSON structure
 export function exportJson() {
     const method = document.getElementById('method').value;
     const urlOption = document.getElementById('urlOption').value;
@@ -30,16 +30,9 @@ export function exportJson() {
     const requestMatchers = getRequestMatchers();
     const responseHeaders = getResponseHeaders();
 
-    // Check if Content-Type exists in response headers
-    let contentTypeExists = false;
-    if (responseHeaders.hasOwnProperty('Content-Type')) {
-        contentTypeExists = true;
-    }
-
-    // Handle Response Body based on body type
+    // Handle Response Body and Content-Type based on body type
     let responseBodyField = {};
     let contentType = '';
-
     if (bodyType === 'json') {
         const parsedResponseBody = tryParseJSON(responseBody);
         if (parsedResponseBody) {
@@ -63,19 +56,23 @@ export function exportJson() {
         contentType = 'text/plain';
     }
 
-    // Construct the response object
-    let response = {
-        status: status,
-        ...responseBodyField,
-        headers: responseHeaders
-    };
-
-    // Add the Content-Type only if it exists in the response headers
-    if (contentTypeExists) {
-        response.headers['Content-Type'] = contentType;
+    // Only add the Content-Type header if it's not deleted by the user
+    if (responseHeaders.hasOwnProperty('Content-Type')) {
+        responseHeaders['Content-Type'] = contentType;
     }
 
-    // Create the JSON structure
+    // Build the response object
+    let response = {
+        status: status,
+        ...responseBodyField
+    };
+
+    // Only add the headers field if there are actual headers
+    if (Object.keys(responseHeaders).length > 0) {
+        response.headers = responseHeaders;
+    }
+
+    // Build and display the JSON structure
     const jsonStub = {
         mappings: [
             {
@@ -89,7 +86,6 @@ export function exportJson() {
         ]
     };
 
-    // Display JSON in the output area
     const prettyJson = JSON.stringify(jsonStub, null, 4);
     document.getElementById('jsonOutput').value = prettyJson;
 }

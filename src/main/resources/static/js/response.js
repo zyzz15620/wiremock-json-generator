@@ -1,36 +1,33 @@
-// Hàm để thêm một Response Header
+// Add a new Response Header block
 export function addResponseHeader() {
     const container = document.getElementById('responseHeadersContainer');
 
     const headerDiv = document.createElement('div');
-    headerDiv.className = 'dynamic-item row mb-2';  // Thêm Bootstrap row và margin bottom
+    headerDiv.className = 'dynamic-item row mb-2';
 
     const keyInput = document.createElement('input');
     keyInput.type = 'text';
     keyInput.placeholder = 'Header Key';
-    keyInput.className = 'form-control col';  // Áp dụng Bootstrap form-control
+    keyInput.className = 'form-control col';
     keyInput.required = true;
 
     const valueInput = document.createElement('input');
-    valueInput.type = 'text';  // Đặt type cho giá trị
+    valueInput.type = 'text';
     valueInput.placeholder = 'Header Value';
-    valueInput.className = 'form-control col';  // Áp dụng Bootstrap form-control
+    valueInput.className = 'form-control col';
     valueInput.required = true;
 
     const deleteButton = document.createElement('button');
     deleteButton.type = 'button';
-    deleteButton.className = 'btn btn-danger col-auto';  // Áp dụng Bootstrap button
+    deleteButton.className = 'btn btn-danger col-auto';
     deleteButton.textContent = 'Delete';
     deleteButton.onclick = () => container.removeChild(headerDiv);
 
-    headerDiv.appendChild(keyInput);
-    headerDiv.appendChild(valueInput);
-    headerDiv.appendChild(deleteButton);
-
+    headerDiv.append(keyInput, valueInput, deleteButton);
     container.appendChild(headerDiv);
 }
 
-// Hàm để lấy tất cả các response headers
+// Retrieve all response headers
 export function getResponseHeaders() {
     const responseHeaders = {};
     const responseHeaderElements = document.querySelectorAll('#responseHeadersContainer .dynamic-item');
@@ -43,6 +40,7 @@ export function getResponseHeaders() {
     return responseHeaders;
 }
 
+// Set Content-Type header based on selected body type
 export function setContentTypeBasedOnBodyType() {
     const bodyType = document.getElementById('bodyType').value;
     let contentType = '';
@@ -64,24 +62,20 @@ export function setContentTypeBasedOnBodyType() {
             contentType = 'application/base64';
             break;
         default:
-            contentType = 'text/plain';  // Default to plain text
-            break;
+            contentType = 'text/plain';
     }
 
-    // Check if the Content-Type header already exists
     const existingContentTypeHeader = document.getElementById('contentTypeHeader');
     if (existingContentTypeHeader) {
-        // If it exists, update the value if the user hasn't removed it
         const valueInput = existingContentTypeHeader.querySelector('input[type="text"]:nth-child(2)');
         if (valueInput) {
-            valueInput.value = contentType;  // Update the content-type value
+            valueInput.value = contentType;
         }
     } else {
-        // If no Content-Type header exists, create a new one
         const container = document.getElementById('responseHeadersContainer');
         const headerDiv = document.createElement('div');
         headerDiv.className = 'dynamic-item row mb-2';
-        headerDiv.id = 'contentTypeHeader';  // Assign a unique ID for the Content-Type header
+        headerDiv.id = 'contentTypeHeader';
 
         const keyInput = document.createElement('input');
         keyInput.type = 'text';
@@ -95,26 +89,13 @@ export function setContentTypeBasedOnBodyType() {
         valueInput.className = 'form-control col';
         valueInput.required = true;
 
-        // Make both inputs editable by removing readOnly attributes
-        keyInput.readOnly = false;
-        valueInput.readOnly = false;
-
-        // Add delete button to allow removal of the Content-Type header
         const deleteButton = document.createElement('button');
         deleteButton.type = 'button';
         deleteButton.className = 'btn btn-danger col-auto';
         deleteButton.textContent = 'Delete';
         deleteButton.onclick = () => container.removeChild(headerDiv);
 
-        headerDiv.appendChild(keyInput);
-        headerDiv.appendChild(valueInput);
-        headerDiv.appendChild(deleteButton);
+        headerDiv.append(keyInput, valueInput, deleteButton);
         container.appendChild(headerDiv);
     }
 }
-
-
-
-
-
-
