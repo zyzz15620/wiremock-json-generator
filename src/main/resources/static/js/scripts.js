@@ -18,23 +18,54 @@ function toggleBodyMatchers() {
 // Hàm sao chép JSON từ textarea vào clipboard và hiển thị thông báo "Copied!"
 function copyToClipboard() {
     const jsonOutput = document.getElementById('jsonOutput');
-    jsonOutput.select(); // Chọn toàn bộ nội dung của textarea
-    document.execCommand('copy'); // Sao chép nội dung đã chọn vào clipboard
+    if (jsonOutput) {  // Kiểm tra xem phần tử jsonOutput có tồn tại không
+        jsonOutput.select(); // Chọn toàn bộ nội dung của textarea
+        document.execCommand('copy'); // Sao chép nội dung đã chọn vào clipboard
 
-    const copyButton = document.getElementById('copyBtn');
-    copyButton.textContent = 'Copied!';  // Thay đổi văn bản nút thành "Copied!"
-    setTimeout(() => {
-        copyButton.textContent = 'Copy JSON';  // Đổi lại thành "Copy JSON" sau 2 giây
-    }, 2000);  // Thời gian hiển thị thông báo (2 giây)
+        const copyButton = document.getElementById('copyBtn');
+        copyButton.textContent = 'Copied!';  // Thay đổi văn bản nút thành "Copied!"
+        setTimeout(() => {
+            copyButton.textContent = 'Copy JSON';  // Đổi lại thành "Copy JSON" sau 2 giây
+        }, 2000);  // Thời gian hiển thị thông báo (2 giây)
+    } else {
+        console.error('jsonOutput element not found');
+    }
 }
 
 // Gán sự kiện cho nút Export và Body Matchers
-document.getElementById('exportBtn').addEventListener('click', exportJson);
-document.getElementById('includeBody').addEventListener('change', toggleBodyMatchers);
-document.getElementById('copyBtn').addEventListener('click', copyToClipboard); // Gán sự kiện cho nút Copy
+const exportBtn = document.getElementById('exportBtn');
+if (exportBtn) {
+    exportBtn.addEventListener('click', exportJson);
+} else {
+    console.error('exportBtn element not found');
+}
+
+const includeBodyCheckbox = document.getElementById('includeBody');
+if (includeBodyCheckbox) {
+    includeBodyCheckbox.addEventListener('change', toggleBodyMatchers);
+} else {
+    console.error('includeBody element not found');
+}
+
+const copyBtn = document.getElementById('copyBtn');
+if (copyBtn) {
+    copyBtn.addEventListener('click', copyToClipboard);
+} else {
+    console.error('copyBtn element not found');
+}
 
 // Gán sự kiện riêng cho nút Add Request Matching
-document.getElementById('addRequestMatcher').addEventListener('click', addRequestMatcher);
+const addRequestMatcherBtn = document.getElementById('addRequestMatcher');
+if (addRequestMatcherBtn) {
+    addRequestMatcherBtn.addEventListener('click', addRequestMatcher);
+} else {
+    console.error('addRequestMatcher element not found');
+}
 
 // Gán sự kiện riêng cho nút Add Response Header
-document.getElementById('addResponseHeader').addEventListener('click', addResponseHeader);
+const addResponseHeaderBtn = document.getElementById('addResponseHeader');
+if (addResponseHeaderBtn) {
+    addResponseHeaderBtn.addEventListener('click', addResponseHeader);
+} else {
+    console.error('addResponseHeader element not found');
+}

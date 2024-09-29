@@ -48,13 +48,13 @@
         <!-- Thêm checkbox để kích hoạt phần Body -->
         <div class="form-group form-check">
             <input type="checkbox" class="form-check-input" id="includeBody" onchange="toggleBodyMatchers()">
-            <label class="form-check-label" for="includeBody">Include Body</label>
+            <label class="form-check-label" for="includeBody">Include Request Body</label>
         </div>
 
         <!-- Phần body matcher sẽ ẩn nếu checkbox không được chọn -->
         <div id="bodyMatcherSection" class="mt-3" style="display:none;">
             <div class="form-group">
-                <label for="bodyMatcher">Body Matcher Type:</label>
+                <label for="bodyMatcher">Request Body Matcher Type:</label>
                 <select id="bodyMatcher" class="form-control" required>
                     <option value="equalToJson">equalToJson</option>
                     <option value="matchesJsonPath">matchesJsonPath</option>
@@ -66,8 +66,8 @@
             </div>
 
             <div class="form-group">
-                <label for="bodyValue">Body Value:</label>
-                <textarea id="bodyValue" class="form-control" rows="6" placeholder="Enter Body Value"></textarea>
+                <label for="bodyValue">Request Body Value:</label>
+                <textarea id="bodyValue" class="form-control" rows="6" placeholder="Enter Request Body Value"></textarea>
             </div>
         </div>
     </div>
