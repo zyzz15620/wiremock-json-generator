@@ -89,6 +89,13 @@ button.add-button {
     box-sizing: border-box;
 }
 
+#bodyValue, #responseBody {
+    height: 200px; /* Tăng chiều cao của textarea */
+    width: 100%;   /* Đảm bảo textarea chiếm toàn bộ chiều rộng */
+    padding: 8px;
+    box-sizing: border-box;
+}
+
 @includeBody {
     margin-right: 10px; /* Giúp checkbox có khoảng cách hợp lý với label */
 }

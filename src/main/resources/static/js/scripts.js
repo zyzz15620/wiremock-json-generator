@@ -15,8 +15,12 @@ function toggleBodyMatchers() {
     }
 }
 
-// Gán các sự kiện khi người dùng click
+// Gán sự kiện khi người dùng click cho nút "Export JSON"
 document.getElementById('exportBtn').addEventListener('click', exportJson);
 document.getElementById('includeBody').addEventListener('change', toggleBodyMatchers);
-document.querySelector('.add-button').addEventListener('click', addRequestMatcher);
-document.querySelector('.add-button').addEventListener('click', addResponseHeader);
+
+// Gán sự kiện riêng cho nút "Add Request Matching"
+document.getElementById('addRequestMatcher').addEventListener('click', addRequestMatcher);
+
+// Gán sự kiện riêng cho nút "Add Response Header"
+document.getElementById('addResponseHeader').addEventListener('click', addResponseHeader);
