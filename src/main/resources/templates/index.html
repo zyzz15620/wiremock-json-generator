@@ -28,15 +28,13 @@
 
         <div class="form-group">
             <label for="urlOption">URL Option:</label>
-            <select id="urlOption" class="form-control" required>
+            <select id="urlOption" class="form-control" required onchange="updateUrlPlaceholder()">
                 <option value="url">URL</option>
                 <option value="urlPath">URL Path</option>
                 <option value="urlPattern">URL Pattern (regex)</option>
                 <option value="urlPathPattern">URL Path Pattern (regex)</option>
-                <option value="urlEqualTo">URL Equal To</option>
-                <option value="urlPathEqualTo">URL Path Equal To</option>
             </select>
-            <input type="text" id="urlValue" class="form-control mt-2" placeholder="Enter URL Value" required>
+            <input type="text" id="urlValue" class="form-control mt-2" placeholder="/your/url" required>
         </div>
 
         <div class="form-group">
@@ -55,13 +53,15 @@
         <div id="bodyMatcherSection" class="mt-3" style="display:none;">
             <div class="form-group">
                 <label for="bodyMatcher">Request Body Matcher Type:</label>
-                <select id="bodyMatcher" class="form-control" required>
+                <select id="bodyMatcher" class="form-control" required onchange="updateBodyPlaceholder()">
+                    <option value="equalTo">equalTo</option>
                     <option value="equalToJson">equalToJson</option>
-                    <option value="matchesJsonPath">matchesJsonPath</option>
                     <option value="equalToXml">equalToXml</option>
                     <option value="matchesXPath">matchesXPath</option>
+                    <option value="matchesJsonPath">matchesJsonPath</option>
                     <option value="contains">contains</option>
-                    <option value="matches">matches (regex)</option>
+                    <option value="matches">matches</option>
+                    <option value="doesNotMatch">doesNotMatch</option>
                 </select>
             </div>
 
@@ -113,5 +113,66 @@
 
 <!-- JS -->
 <script type="module" src="/js/scripts.js"></script>
+
+<!-- Thêm logic cho placeholder -->
+<script>
+    function updateBodyPlaceholder() {
+        const bodyMatcher = document.getElementById('bodyMatcher').value;
+        const bodyValue = document.getElementById('bodyValue');
+
+        switch (bodyMatcher) {
+            case 'equalTo':
+                bodyValue.placeholder = '"equalTo": "some body content"';
+                break;
+            case 'equalToJson':
+                bodyValue.placeholder = '{ "key": "value" }';
+                break;
+            case 'equalToXml':
+                bodyValue.placeholder = '<root><key>value</key></root>';
+                break;
+            case 'matchesXPath':
+                bodyValue.placeholder = "/root/key[text() = 'value']";
+                break;
+            case 'matchesJsonPath':
+                bodyValue.placeholder = "$.key[?(@ == 'value')]";
+                break;
+            case 'contains':
+                bodyValue.placeholder = '"contains": "some text"';
+                break;
+            case 'matches':
+                bodyValue.placeholder = '".some pattern."';
+                break;
+            case 'doesNotMatch':
+                bodyValue.placeholder = '".some pattern."';
+                break;
+            default:
+                bodyValue.placeholder = 'Enter Request Body Value';
+                break;
+        }
+    }
+
+    function updateUrlPlaceholder() {
+        const urlOption = document.getElementById('urlOption').value;
+        const urlValue = document.getElementById('urlValue');
+
+        switch (urlOption) {
+            case 'url':
+                urlValue.placeholder = '/your/url?and=query';
+                break;
+            case 'urlPath':
+                urlValue.placeholder = '/your/url';
+                break;
+            case 'urlPattern':
+                urlValue.placeholder = '/your/([a-z]*)\\?and=query';
+                break;
+            case 'urlPathPattern':
+                urlValue.placeholder = '/your/([a-z]*)';
+                break;
+            default:
+                urlValue.placeholder = '/your/url';
+                break;
+        }
+    }
+</script>
 </body>
 </html>
