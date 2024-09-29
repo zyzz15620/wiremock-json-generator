@@ -1,6 +1,7 @@
 import { addRequestMatcher } from './request.js';
 import { addResponseHeader } from './response.js';
 import { exportJson } from './export.js';
+import { setContentTypeBasedOnBodyType } from './response.js';
 
 // Hàm để bật/tắt phần Body Matchers
 function toggleBodyMatchers() {
@@ -69,3 +70,16 @@ if (addResponseHeaderBtn) {
 } else {
     console.error('addResponseHeader element not found');
 }
+
+const bodyTypeSelect = document.getElementById('bodyType');
+if (bodyTypeSelect) {
+    bodyTypeSelect.addEventListener('change', () => {
+        updateResponseBodyPlaceholder();
+        setContentTypeBasedOnBodyType();  // Call the new function here
+    });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    setContentTypeBasedOnBodyType();  // Ensure Content-Type is set on page load
+});
+

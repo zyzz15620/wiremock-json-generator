@@ -48,13 +48,13 @@ export function exportJson() {
             return;
         }
     } else if (bodyType === 'xml') {
-        responseBodyField = { "xmlBody": responseBody };
+        responseBodyField = { "equalToXml": responseBody };
         contentType = 'application/xml';
     } else if (bodyType === 'html') {
         responseBodyField = { "htmlBody": responseBody };
         contentType = 'text/html';
     } else if (bodyType === 'base64') {
-        responseBodyField = { "base64Body": responseBody };
+        responseBodyField = { "binaryEqualTo": responseBody };
         contentType = 'application/base64';
     } else if (bodyType === 'text') {
         responseBodyField = { "body": responseBody };
