@@ -1,30 +1,20 @@
+// Event delegation for delete buttons
+document.getElementById('responseHeadersContainer').addEventListener('click', function(event) {
+    if (event.target && event.target.classList.contains('btn-danger')) {
+        event.target.closest('.dynamic-item').remove();
+    }
+});
+
 export function addResponseHeader() {
     const container = document.getElementById('responseHeadersContainer');
+    const template = document.getElementById('response-header-template');
 
-    const headerDiv = document.createElement('div');
-    headerDiv.className = 'dynamic-item row mb-2';
-
-    const keyInput = document.createElement('input');
-    keyInput.type = 'text';
-    keyInput.placeholder = 'Header Key';
-    keyInput.className = 'form-control col';
-    keyInput.required = true;
-
-    const valueInput = document.createElement('input');
-    valueInput.type = 'text';
-    valueInput.placeholder = 'Header Value';
-    valueInput.className = 'form-control col';
-    valueInput.required = true;
-
-    const deleteButton = document.createElement('button');
-    deleteButton.type = 'button';
-    deleteButton.className = 'btn btn-danger col-auto';
-    deleteButton.textContent = 'Delete';
-    deleteButton.onclick = () => container.removeChild(headerDiv);
-
-    headerDiv.append(keyInput, valueInput, deleteButton);
+    // Clone the template content and append it to the container
+    const headerDiv = template.content.cloneNode(true);
     container.appendChild(headerDiv);
 }
+
+
 
 export function getResponseHeaders() {
     const responseHeaders = {};

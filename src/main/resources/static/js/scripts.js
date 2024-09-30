@@ -4,6 +4,14 @@ import { exportJson } from './export.js';
 import { setContentTypeBasedOnBodyType } from './response.js';
 import { placeholderData } from './placeholderData.js'; // Import the placeholder data
 
+// Load the template content dynamically using fetch
+fetch('templates.html')
+    .then(response => response.text())
+    .then(html => {
+    document.body.insertAdjacentHTML('beforeend', html); // Insert templates into body
+})
+    .catch(error => console.error('Error loading templates:', error));
+
 function toggleFixedDelay() {
     const includeFixedDelay = document.getElementById('includeFixedDelay').checked;
     const fixedDelayInput = document.getElementById('fixedDelayValue');
