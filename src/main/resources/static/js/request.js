@@ -1,55 +1,39 @@
 export function addRequestMatcher() {
     const container = document.getElementById('requestMatchingContainer');
-
     const matcherDiv = document.createElement('div');
     matcherDiv.className = 'dynamic-item row mb-2';
 
-    const typeSelect = document.createElement('select');
-    typeSelect.className = 'form-control col';
-    typeSelect.innerHTML = `
-        <option value="queryParameters">Query Parameter</option>
-        <option value="pathParameters">Path Parameter</option>
-        <option value="headers">Header</option>
-        <option value="cookies">Cookie</option>
-        <option value="formParameters">Form Parameter</option>
+    const template = `
+        <select class="form-control col">
+            <option value="queryParameters">Query Parameter</option>
+            <option value="pathParameters">Path Parameter</option>
+            <option value="headers">Header</option>
+            <option value="cookies">Cookie</option>
+            <option value="formParameters">Form Parameter</option>
+        </select>
+        <input type="text" placeholder="Key" class="form-control col" required />
+        <select class="form-control col">
+            <option value="equalTo">equals</option>
+            <option value="contains">contains</option>
+            <option value="matches">matches</option>
+            <option value="notEqualTo">not equals</option>
+            <option value="doesNotContain">not contains</option>
+            <option value="doesNotMatch">not matches</option>
+            <option value="after">after date</option>
+            <option value="before">before date</option>
+        </select>
+        <input type="text" placeholder="Value" class="form-control col" required />
+        <button type="button" class="btn btn-danger col-auto">Delete</button>
     `;
-    typeSelect.required = true;
 
-    const keyInput = document.createElement('input');
-    keyInput.type = 'text';
-    keyInput.placeholder = 'Key';
-    keyInput.className = 'form-control col';
-    keyInput.required = true;
+    matcherDiv.innerHTML = template;
 
-    const matchSelect = document.createElement('select');
-    matchSelect.className = 'form-control col';
-    matchSelect.innerHTML = `
-        <option value="equalTo">equals</option>
-        <option value="contains">contains</option>
-        <option value="matches">matches</option>
-        <option value="notEqualTo">not equals</option>
-        <option value="doesNotContain">not contains</option>
-        <option value="doesNotMatch">not matches</option>
-        <option value="after">after date</option>
-        <option value="before">before date</option>
-    `;
-    matchSelect.required = true;
-
-    const valueInput = document.createElement('input');
-    valueInput.type = 'text';
-    valueInput.placeholder = 'Value';
-    valueInput.className = 'form-control col';
-    valueInput.required = true;
-
-    const deleteButton = document.createElement('button');
-    deleteButton.type = 'button';
-    deleteButton.className = 'btn btn-danger col-auto';
-    deleteButton.textContent = 'Delete';
+    const deleteButton = matcherDiv.querySelector('button');
     deleteButton.onclick = () => container.removeChild(matcherDiv);
 
-    matcherDiv.append(typeSelect, keyInput, matchSelect, valueInput, deleteButton);
     container.appendChild(matcherDiv);
 }
+
 
 // Retrieve all request matchers
 export function getRequestMatchers() {
