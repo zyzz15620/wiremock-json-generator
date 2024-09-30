@@ -24,36 +24,27 @@ export function exportJson() {
     }
 
     const requestMatchers = getRequestMatchers();
-    const responseHeaders = getResponseHeaders();
+    const responseHeaders = getResponseHeaders(); // Get headers including Content-Type
 
     let responseBodyField = {};
-    let contentType = '';
+
+    // Handle response body fields based on body type
     if (bodyType === 'json') {
         const parsedResponseBody = tryParseJSON(responseBody);
         if (parsedResponseBody) {
             responseBodyField = { "jsonBody": parsedResponseBody };
-            contentType = 'application/json';
         } else {
             alert("Invalid JSON format in response body.");
             return;
         }
     } else if (bodyType === 'xml') {
         responseBodyField = { "equalToXml": responseBody };
-        contentType = 'application/xml';
     } else if (bodyType === 'html') {
         responseBodyField = { "htmlBody": responseBody };
-        contentType = 'text/html';
     } else if (bodyType === 'base64') {
         responseBodyField = { "binaryEqualTo": responseBody };
-        contentType = 'application/base64';
     } else if (bodyType === 'text') {
         responseBodyField = { "body": responseBody };
-        contentType = 'text/plain';
-    }
-
-    // Only add the Content-Type header if it's not deleted by the user
-    if (responseHeaders.hasOwnProperty('Content-Type')) {
-        responseHeaders['Content-Type'] = contentType;
     }
 
     // Build the response object
@@ -64,7 +55,7 @@ export function exportJson() {
 
     // Add the headers field if there are actual headers
     if (Object.keys(responseHeaders).length > 0) {
-        response.headers = responseHeaders;
+        response.headers = responseHeaders; // Include Content-Type and other headers
     }
 
     if (document.getElementById('includeFixedDelay').checked) {
