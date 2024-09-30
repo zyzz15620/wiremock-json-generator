@@ -1,4 +1,3 @@
-// Add a new Request Matching block
 export function addRequestMatcher() {
     const container = document.getElementById('requestMatchingContainer');
 
@@ -31,6 +30,8 @@ export function addRequestMatcher() {
         <option value="notEqualTo">not equals</option>
         <option value="doesNotContain">not contains</option>
         <option value="doesNotMatch">not matches</option>
+        <option value="after">after date</option>
+        <option value="before">before date</option>
     `;
     matchSelect.required = true;
 

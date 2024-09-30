@@ -18,17 +18,14 @@ export function exportJson() {
     const bodyType = document.getElementById('bodyType').value;
     const responseBody = document.getElementById('responseBody').value;
 
-    // Validate URL and Method
     if (!urlValue || !method) {
         alert('URL and Method are required!');
         return;
     }
 
-    // Retrieve request matchers and response headers
     const requestMatchers = getRequestMatchers();
     const responseHeaders = getResponseHeaders();
 
-    // Handle Response Body and Content-Type based on body type
     let responseBodyField = {};
     let contentType = '';
     if (bodyType === 'json') {
@@ -70,7 +67,6 @@ export function exportJson() {
         response.headers = responseHeaders;
     }
 
-    // Add fixedDelayMilliseconds if the checkbox is checked
     if (document.getElementById('includeFixedDelay').checked) {
         const fixedDelayValue = parseInt(document.getElementById('fixedDelayValue').value);
         if (!isNaN(fixedDelayValue)) {
@@ -78,13 +74,11 @@ export function exportJson() {
         }
     }
 
-    // Add fault if the checkbox is checked
     if (document.getElementById('includeFault').checked) {
         const faultValue = document.getElementById('faultValue').value;
         response.fault = faultValue;
     }
 
-    // Build and display the JSON structure
     const jsonStub = {
         mappings: [
             {

@@ -99,7 +99,7 @@
             <textarea id="responseBody" class="form-control" rows="6" required></textarea>
         </div>
 
-        <!-- Fixed Delay Checkbox and Input -->
+        <!-- Fixed Delay -->
         <div class="form-group form-check">
             <input type="checkbox" class="form-check-input" id="includeFixedDelay" onchange="toggleFixedDelay()">
             <label class="form-check-label" for="includeFixedDelay">Include Fixed Delay (Milliseconds)</label>
@@ -109,7 +109,7 @@
             <input type="number" id="fixedDelayValue" class="form-control" disabled placeholder="Enter delay in ms">
         </div>
 
-        <!-- Fault Checkbox and Dropdown -->
+        <!-- Fault -->
         <div class="form-group form-check">
             <input type="checkbox" class="form-check-input" id="includeFault" onchange="toggleFaultOptions()">
             <label class="form-check-label" for="includeFault">Include Fault</label>
@@ -133,7 +133,6 @@
     </div>
 </div>
 
-<!-- JS Scripts -->
 <script type="module" src="js/export.js"></script>
 <script type="module" src="js/request.js"></script>
 <script type="module" src="js/response.js"></script>

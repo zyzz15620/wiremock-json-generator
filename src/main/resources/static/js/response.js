@@ -1,4 +1,3 @@
-// Add a new Response Header block
 export function addResponseHeader() {
     const container = document.getElementById('responseHeadersContainer');
 
@@ -27,7 +26,6 @@ export function addResponseHeader() {
     container.appendChild(headerDiv);
 }
 
-// Retrieve all response headers
 export function getResponseHeaders() {
     const responseHeaders = {};
     const responseHeaderElements = document.querySelectorAll('#responseHeadersContainer .dynamic-item');
@@ -40,7 +38,6 @@ export function getResponseHeaders() {
     return responseHeaders;
 }
 
-// Set Content-Type header based on selected body type
 export function setContentTypeBasedOnBodyType() {
     const bodyType = document.getElementById('bodyType').value;
     let contentType = '';
