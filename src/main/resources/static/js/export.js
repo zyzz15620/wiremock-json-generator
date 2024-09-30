@@ -1,7 +1,6 @@
 import { getRequestMatchers } from './request.js';
 import { getResponseHeaders } from './response.js';
 
-// Define a helper function for safely parsing JSON
 function tryParseJSON(jsonString) {
     try {
         return JSON.parse(jsonString);
@@ -11,7 +10,6 @@ function tryParseJSON(jsonString) {
     }
 }
 
-// Function to export the JSON structure
 export function exportJson() {
     const method = document.getElementById('method').value;
     const urlOption = document.getElementById('urlOption').value;

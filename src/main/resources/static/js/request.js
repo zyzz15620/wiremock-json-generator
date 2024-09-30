@@ -9,9 +9,9 @@ export function addRequestMatcher() {
     typeSelect.className = 'form-control col';
     typeSelect.innerHTML = `
         <option value="queryParameters">Query Parameter</option>
+        <option value="pathParameters">Path Parameter</option>
         <option value="headers">Header</option>
         <option value="cookies">Cookie</option>
-        <option value="bodyPatterns">Body</option>
         <option value="formParameters">Form Parameter</option>
     `;
     typeSelect.required = true;
@@ -28,7 +28,9 @@ export function addRequestMatcher() {
         <option value="equalTo">equals</option>
         <option value="contains">contains</option>
         <option value="matches">matches</option>
-        <option value="notEqualTo">Not Equals</option>
+        <option value="notEqualTo">not equals</option>
+        <option value="doesNotContain">not contains</option>
+        <option value="doesNotMatch">not matches</option>
     `;
     matchSelect.required = true;
 
