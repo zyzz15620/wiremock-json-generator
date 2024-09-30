@@ -102,20 +102,20 @@
         <!-- Fixed Delay -->
         <div class="form-group form-check">
             <input type="checkbox" class="form-check-input" id="includeFixedDelay" onchange="toggleFixedDelay()">
-            <label class="form-check-label" for="includeFixedDelay">Include Fixed Delay (Milliseconds)</label>
+            <label class="form-check-label" for="includeFixedDelay">Fixed Delay (Milliseconds):</label>
         </div>
         <div class="form-group">
-            <label for="fixedDelayValue">Fixed Delay (Milliseconds):</label>
+            <label for="fixedDelayValue" style="display: none;">Fixed Delay (Milliseconds):</label>
             <input type="number" id="fixedDelayValue" class="form-control" disabled placeholder="Enter delay in ms">
         </div>
 
         <!-- Fault -->
         <div class="form-group form-check">
             <input type="checkbox" class="form-check-input" id="includeFault" onchange="toggleFaultOptions()">
-            <label class="form-check-label" for="includeFault">Include Fault</label>
+            <label class="form-check-label" for="includeFault">Fault Type:</label>
         </div>
         <div class="form-group">
-            <label for="faultValue">Fault Type:</label>
+            <label for="faultValue" style="display: none;">Fault Type:</label>
             <select id="faultValue" class="form-control" disabled>
                 <option value="EMPTY_RESPONSE">EMPTY_RESPONSE</option>
                 <option value="RANDOM_DATA_THEN_CLOSE">RANDOM_DATA_THEN_CLOSE</option>

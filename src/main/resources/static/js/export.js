@@ -5,7 +5,7 @@ function tryParseJSON(jsonString) {
     try {
         return JSON.parse(jsonString);
     } catch (e) {
-        console.error("Invalid JSON string:", e);
+        alert("Invalid JSON format.");
         return null;
     }
 }
@@ -15,8 +15,9 @@ export function exportJson() {
     const urlOption = document.getElementById('urlOption').value;
     const urlValue = document.getElementById('urlValue').value;
     const status = parseInt(document.getElementById('status').value);
-    const bodyType = document.getElementById('bodyType').value;
-    const responseBody = document.getElementById('responseBody').value;
+    const includeRequestBody = document.getElementById('includeBody').checked;
+    const bodyMatcherType = document.getElementById('bodyMatcher').value;
+    const bodyValue = document.getElementById('bodyValue').value;
 
     if (!urlValue || !method) {
         alert('URL and Method are required!');
@@ -28,14 +29,16 @@ export function exportJson() {
 
     let responseBodyField = {};
 
-    // Handle response body fields based on body type
+    // Handle response body fields based on body type (from the response section)
+    const bodyType = document.getElementById('bodyType').value;
+    const responseBody = document.getElementById('responseBody').value;
+
     if (bodyType === 'json') {
         const parsedResponseBody = tryParseJSON(responseBody);
         if (parsedResponseBody) {
             responseBodyField = { "jsonBody": parsedResponseBody };
         } else {
-            alert("Invalid JSON format in response body.");
-            return;
+            return; // Stop export if response body is invalid JSON
         }
     } else if (bodyType === 'xml') {
         responseBodyField = { "equalToXml": responseBody };
@@ -70,6 +73,23 @@ export function exportJson() {
         response.fault = faultValue;
     }
 
+    // Check if the request body is included
+    let requestBody = {};
+    if (includeRequestBody) {
+        if (bodyMatcherType === 'equalToJson') {
+            const parsedRequestBody = tryParseJSON(bodyValue);
+            if (parsedRequestBody) {
+                requestBody = { "bodyPatterns": [{ "equalToJson": parsedRequestBody }] };
+            } else {
+                return; // Stop export if request body is invalid JSON
+            }
+        } else if (bodyMatcherType === 'equalToXml') {
+            requestBody = { "bodyPatterns": [{ "equalToXml": bodyValue }] };
+        } else {
+            requestBody = { "bodyPatterns": [{ [bodyMatcherType]: bodyValue }] };
+        }
+    }
+
     const jsonStub = {
         mappings: [
             {
@@ -77,6 +97,7 @@ export function exportJson() {
                     [urlOption]: urlValue,
                     method: method,
                     ...requestMatchers,
+                    ...requestBody // Include request body if applicable
                 },
                 response: response
             }
