@@ -32,7 +32,68 @@ function copyToClipboard() {
     }
 }
 
-// Bind event listeners
+// Function to update placeholders based on selected values
+function updatePlaceholders() {
+    const bodyMatcherField = document.getElementById('bodyMatcher');
+    const bodyValueField = document.getElementById('bodyValue');
+    const selectedMatcher = bodyMatcherField.value;
+
+    switch (selectedMatcher) {
+        case 'equalTo':
+            bodyValueField.placeholder = 'Exact string you want to match';
+            break;
+        case 'equalToJson':
+            bodyValueField.placeholder = '{ "key": "value" }';
+            break;
+        case 'equalToXml':
+            bodyValueField.placeholder = '<root><key>value</key></root>';
+            break;
+        case 'matchesXPath':
+            bodyValueField.placeholder = '//root/element';
+            break;
+        case 'matchesJsonPath':
+            bodyValueField.placeholder = '$.key';
+            break;
+        case 'contains':
+            bodyValueField.placeholder = 'Partial string match';
+            break;
+        case 'matches':
+            bodyValueField.placeholder = 'Regular expression pattern';
+            break;
+        case 'doesNotMatch':
+            bodyValueField.placeholder = 'Regular expression to not match';
+            break;
+    }
+
+    const bodyTypeField = document.getElementById('bodyType');
+    const responseBodyField = document.getElementById('responseBody');
+    const selectedType = bodyTypeField.value;
+
+    switch (selectedType) {
+        case 'json':
+            responseBodyField.placeholder = '{ "key": "value" }';
+            break;
+        case 'text':
+            responseBodyField.placeholder = 'Plain text content';
+            break;
+        case 'xml':
+            responseBodyField.placeholder = '<root><key>value</key></root>';
+            break;
+        case 'html':
+            responseBodyField.placeholder = '<html><body><h1>Your HTML content</h1></body></html>';
+            break;
+        case 'base64':
+            responseBodyField.placeholder = 'SGVsbG8gV29ybGQ=';
+            break;
+    }
+}
+
+// Set placeholders when the page loads
+window.onload = updatePlaceholders;
+
+// Bind event listeners for other functionality
+document.getElementById('bodyMatcher').addEventListener('change', updatePlaceholders);
+document.getElementById('bodyType').addEventListener('change', updatePlaceholders);
 document.getElementById('exportBtn').addEventListener('click', exportJson);
 document.getElementById('includeFixedDelay').addEventListener('change', toggleFixedDelay);
 document.getElementById('includeFault').addEventListener('change', toggleFaultOptions);
