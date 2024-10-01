@@ -2,9 +2,8 @@ import { addRequestMatcher } from './request.js';
 import { addResponseHeader } from './response.js';
 import { exportJson } from './export.js';
 import { setContentTypeBasedOnBodyType } from './response.js';
-import { placeholderData } from './placeholderData.js'; // Import the placeholder data
+import { placeholderData } from './placeholderData.js';
 
-// Load the template content dynamically using fetch
 fetch('templates.html')
     .then(response => response.text())
     .then(html => {
@@ -43,19 +42,16 @@ function copyToClipboard() {
 
 // Function to update all placeholders (for body, response, and URL)
 function updateAllPlaceholders() {
-    // Update placeholder for bodyValue based on bodyMatcher
     const bodyMatcherField = document.getElementById('bodyMatcher');
     const bodyValueField = document.getElementById('bodyValue');
     const selectedMatcher = bodyMatcherField.value;
     bodyValueField.placeholder = placeholderData.bodyMatcher[selectedMatcher] || '';
 
-    // Update placeholder for responseBody based on bodyType
     const bodyTypeField = document.getElementById('bodyType');
     const responseBodyField = document.getElementById('responseBody');
     const selectedType = bodyTypeField.value;
     responseBodyField.placeholder = placeholderData.bodyType[selectedType] || '';
 
-    // Update placeholder for urlValue based on urlOption
     const urlOptionField = document.getElementById('urlOption');
     const urlValueField = document.getElementById('urlValue');
     const selectedUrlOption = urlOptionField.value;
@@ -65,12 +61,9 @@ function updateAllPlaceholders() {
 // Set placeholders when the page loads
 window.onload = updateAllPlaceholders;
 
-// Bind event listeners to update placeholders when selection changes
 document.getElementById('bodyMatcher').addEventListener('change', updateAllPlaceholders);
 document.getElementById('bodyType').addEventListener('change', updateAllPlaceholders);
 document.getElementById('urlOption').addEventListener('change', updateAllPlaceholders);
-
-// Bind event listeners for other functionality
 document.getElementById('exportBtn').addEventListener('click', exportJson);
 document.getElementById('includeFixedDelay').addEventListener('change', toggleFixedDelay);
 document.getElementById('includeFault').addEventListener('change', toggleFaultOptions);

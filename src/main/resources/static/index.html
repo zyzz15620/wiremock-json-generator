@@ -86,8 +86,8 @@
         <div class="form-group">
             <label for="bodyType">Body Type:</label>
             <select id="bodyType" class="form-control" required>
-                <option value="json">JSON</option>
                 <option value="text">Text</option>
+                <option value="json">JSON</option>
                 <option value="xml">XML</option>
                 <option value="html">HTML</option>
                 <option value="base64">Base64</option>
@@ -99,7 +99,6 @@
             <textarea id="responseBody" class="form-control" rows="6" required></textarea>
         </div>
 
-        <!-- Fixed Delay -->
         <div class="form-group form-check">
             <input type="checkbox" class="form-check-input" id="includeFixedDelay" onchange="toggleFixedDelay()">
             <label class="form-check-label" for="includeFixedDelay">Fixed Delay (Milliseconds):</label>
@@ -109,7 +108,6 @@
             <input type="number" id="fixedDelayValue" class="form-control" disabled placeholder="Enter delay in ms" value="5000">
         </div>
 
-        <!-- Fault -->
         <div class="form-group form-check">
             <input type="checkbox" class="form-check-input" id="includeFault" onchange="toggleFaultOptions()">
             <label class="form-check-label" for="includeFault">Fault Type:</label>
@@ -125,7 +123,6 @@
         </div>
     </div>
 
-    <!-- Export and JSON Output Section -->
     <div class="section">
         <button id="exportBtn" class="btn btn-success">Export JSON</button>
         <button id="copyBtn" class="btn btn-secondary ml-2">Copy JSON</button>

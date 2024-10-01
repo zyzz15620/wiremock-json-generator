@@ -1,4 +1,3 @@
-// Event delegation for delete buttons
 document.getElementById('responseHeadersContainer').addEventListener('click', function(event) {
     if (event.target && event.target.classList.contains('btn-danger')) {
         event.target.closest('.dynamic-item').remove();
@@ -8,8 +7,6 @@ document.getElementById('responseHeadersContainer').addEventListener('click', fu
 export function addResponseHeader() {
     const container = document.getElementById('responseHeadersContainer');
     const template = document.getElementById('response-header-template');
-
-    // Clone the template content and append it to the container
     const headerDiv = template.content.cloneNode(true);
     container.appendChild(headerDiv);
 }

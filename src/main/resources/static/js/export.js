@@ -25,11 +25,10 @@ export function exportJson() {
     }
 
     const requestMatchers = getRequestMatchers();
-    const responseHeaders = getResponseHeaders(); // Get headers including Content-Type
+    const responseHeaders = getResponseHeaders();
 
     let responseBodyField = {};
 
-    // Handle response body fields based on body type (from the response section)
     const bodyType = document.getElementById('bodyType').value;
     const responseBody = document.getElementById('responseBody').value;
 
@@ -50,7 +49,6 @@ export function exportJson() {
         responseBodyField = { "body": responseBody };
     }
 
-    // Build the response object
     let response = {
         status: status,
         ...responseBodyField
@@ -73,7 +71,6 @@ export function exportJson() {
         response.fault = faultValue;
     }
 
-    // Check if the request body is included
     let requestBody = {};
     if (includeRequestBody) {
         if (bodyMatcherType === 'equalToJson') {
@@ -81,7 +78,7 @@ export function exportJson() {
             if (parsedRequestBody) {
                 requestBody = { "bodyPatterns": [{ "equalToJson": parsedRequestBody }] };
             } else {
-                return; // Stop export if request body is invalid JSON
+                return;
             }
         } else if (bodyMatcherType === 'equalToXml') {
             requestBody = { "bodyPatterns": [{ "equalToXml": bodyValue }] };
@@ -97,7 +94,7 @@ export function exportJson() {
                     [urlOption]: urlValue,
                     method: method,
                     ...requestMatchers,
-                    ...requestBody // Include request body if applicable
+                    ...requestBody
                 },
                 response: response
             }

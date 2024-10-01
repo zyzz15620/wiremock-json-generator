@@ -1,4 +1,3 @@
-// Event delegation for delete buttons
 document.getElementById('requestMatchingContainer').addEventListener('click', function(event) {
     if (event.target && event.target.classList.contains('btn-danger')) {
         event.target.closest('.dynamic-item').remove();
@@ -8,16 +7,10 @@ document.getElementById('requestMatchingContainer').addEventListener('click', fu
 export function addRequestMatcher() {
     const container = document.getElementById('requestMatchingContainer');
     const template = document.getElementById('request-matcher-template');
-
-    // Clone the template content and append it to the container
     const matcherDiv = template.content.cloneNode(true);
     container.appendChild(matcherDiv);
 }
 
-
-
-
-// Retrieve all request matchers
 export function getRequestMatchers() {
     const requestMatchers = {};
     const requestMatchingElements = document.querySelectorAll('#requestMatchingContainer .dynamic-item');
